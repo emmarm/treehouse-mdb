@@ -25,5 +25,11 @@ def get_movies():
     api_key = app.config['TMDB_API_KEY']
     res = requests.get(
         f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page={page_num}')
-    movie_list = res.json()['results']
+    json = res.json()
+    error = ''
+    if res.status_code != 200:
+        error = json['errors'][0] if 'errors' in json else json['status_message']
+    if error:
+        return render_template('error.html', error=error)
+    movie_list = json['results']
     return render_template('movies.html', movies=movie_list, page=page_num)

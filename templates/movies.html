@@ -2,6 +2,7 @@
     {% for movie in movies %}
       <a href="/movie/{{ movie.id }}">
         <p>{{ movie.title }}</p>
+        <p>{{ movie.adult }}</p>
       </a>
     {% endfor %}
     {% if page > 1 %}
