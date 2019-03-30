@@ -1,6 +1,6 @@
 import requests
+from flask import Flask, render_template, request
 
-from flask import Flask
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -19,9 +19,11 @@ def say_hello(name):
 
 @app.route('/movies/', methods=['GET'])
 def get_movies():
+    page_num = 1
+    if request.args.get('page'):
+        page_num = int(request.args.get('page'))
     api_key = app.config['TMDB_API_KEY']
     res = requests.get(
-        f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page=1')
+        f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page={page_num}')
     movie_list = res.json()['results']
-    print(movie_list)
-    return movie_list[0]['title']
+    return render_template('movies.html', movies=movie_list, page=page_num)
