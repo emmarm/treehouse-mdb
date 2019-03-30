@@ -1,6 +1,8 @@
 import requests
 from flask import Flask, render_template, request
 
+from utils import return_error_or_data
+
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -19,20 +21,14 @@ def say_hello(name):
 
 @app.route('/movies/', methods=['GET'])
 def get_movies():
-    page_num = 1
-    if request.args.get('page'):
-        page_num = int(request.args.get('page'))
+    page_num = int(request.args['page']) if request.args.get('page') else 1
     api_key = app.config['TMDB_API_KEY']
     res = requests.get(
         f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page={page_num}')
-    json = res.json()
-    error = ''
-    if res.status_code != 200:
-        error = json['errors'][0] if 'errors' in json else json['status_message']
+    error, data = return_error_or_data(res)
     if error:
         return render_template('error.html', error=error)
-    movie_list = json['results']
-    return render_template('movies.html', movies=movie_list, page=page_num)
+    return render_template('movies.html', movies=data['results'], page=page_num)
 
 
 @app.route('/movie/<int:id>', methods=['GET'])
@@ -40,10 +36,7 @@ def get_movie(id):
     api_key = app.config['TMDB_API_KEY']
     res = requests.get(
         f'https://api.themoviedb.org/3/movie/{id}?api_key={api_key}&language=en-US')
-    json = res.json()
-    error = ''
-    if res.status_code != 200:
-        error = json['errors'][0] if 'errors' in json else json['status_message']
+    error, data = return_error_or_data(res)
     if error:
         return render_template('error.html', error=error)
-    return render_template('movie.html', movie=json)
+    return render_template('movie.html', movie=data)
