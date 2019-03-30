@@ -1,6 +1,7 @@
 import requests
 from flask import Flask, render_template, request
 
+from models import Movie
 from utils import return_error_or_data
 
 app = Flask(__name__)
@@ -28,7 +29,8 @@ def get_movies():
     error, data = return_error_or_data(res)
     if error:
         return render_template('error.html', error=error)
-    return render_template('movies.html', movies=data['results'], page=page_num)
+    movies = [Movie(movie) for movie in data['results']]
+    return render_template('movies.html', movies=movies, page=page_num, Movie=Movie)
 
 
 @app.route('/movie/<int:id>', methods=['GET'])
@@ -39,4 +41,5 @@ def get_movie(id):
     error, data = return_error_or_data(res)
     if error:
         return render_template('error.html', error=error)
-    return render_template('movie.html', movie=data)
+    movie = Movie(data)
+    return render_template('movie.html', movie=movie)

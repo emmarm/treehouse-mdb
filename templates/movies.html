@@ -1,14 +1,13 @@
 <div>
-    {% for movie in movies %}
+    {% for movie in movies|sort(attribute='sort_title') %}
       <a href="/movie/{{ movie.id }}">
         <p>{{ movie.title }}</p>
-        <p>{{ movie.adult }}</p>
       </a>
     {% endfor %}
     {% if page > 1 %}
-      <a href='/movies/?page={{ page - 1 }}'>Previous</a>
+      <a href="/movies/?page={{ page - 1 }}">Previous</a>
     {% endif %}
     {% if page < 1000 %}
-      <a href='/movies/?page={{ page + 1 }}'>Next</a>
+      <a href="/movies/?page={{ page + 1 }}">Next</a>
     {% endif %}
   </div>
