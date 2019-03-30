@@ -33,3 +33,17 @@ def get_movies():
         return render_template('error.html', error=error)
     movie_list = json['results']
     return render_template('movies.html', movies=movie_list, page=page_num)
+
+
+@app.route('/movie/<int:id>', methods=['GET'])
+def get_movie(id):
+    api_key = app.config['TMDB_API_KEY']
+    res = requests.get(
+        f'https://api.themoviedb.org/3/movie/{id}?api_key={api_key}&language=en-US')
+    json = res.json()
+    error = ''
+    if res.status_code != 200:
+        error = json['errors'][0] if 'errors' in json else json['status_message']
+    if error:
+        return render_template('error.html', error=error)
+    return render_template('movie.html', movie=json)
