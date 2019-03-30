@@ -1,7 +1,6 @@
 import unittest
 
 from index import app
-from utils import return_error_or_data
 
 
 class IndexTests(unittest.TestCase):

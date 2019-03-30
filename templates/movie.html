@@ -1,13 +1,17 @@
-<div>
-  <p>{{ movie.title }}</p>
-  <p>Released on: {{ movie.release_date }}</p>
-  {% set popularity_comparison = (movie.popularity - movie.get_popularity_average())|round|int %}
-  <p>Popularity: {{ movie.popularity|round|int }}
-    ({{ popularity_comparison|abs }}
-    {% if popularity_comparison > 0 %} 
-      above 
-    {% else %} 
-      below 
-    {% endif %}
-    average)</p>
-</div>
+{% extends "base.html" %}
+{% block title %}Movie Details{% endblock %}
+{% block content %}
+  <div>
+    <h2>{{ movie.title }}</h2>
+    <p>Released on: {{ movie.release_date }}</p>
+    {% set popularity_comparison = (movie.popularity - movie.get_popularity_average())|round|int %}
+    <p>Popularity: {{ movie.popularity|round|int }}
+      ({{ popularity_comparison|abs }}
+      {% if popularity_comparison > 0 %} 
+        above 
+      {% else %} 
+        below 
+      {% endif %}
+      average)</p>
+  </div>
+{% endblock %}

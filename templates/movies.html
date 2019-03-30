@@ -1,4 +1,7 @@
-<div>
+{% extends "base.html" %}
+{% block title %}Movie List{% endblock %}
+{% block content %}
+  <div>
     {% for movie in movies|sort(attribute='sort_title') %}
       <a href="/movie/{{ movie.id }}">
         <p>{{ movie.title }}</p>
@@ -11,3 +14,4 @@
       <a href="/movies/?page={{ page + 1 }}">Next</a>
     {% endif %}
   </div>
+{% endblock %}
