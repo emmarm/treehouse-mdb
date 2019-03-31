@@ -1,2 +1,7 @@
+# ignore venv folder - include requirements.txt file listing required packages
 venv/
+# ignore config file
+# for our app config.py contains:
+#   TMDB_API_KEY (allows access to TMDb movies API)
+#   SECRET_KEY (necessary for using Flask session in app)
 config.py

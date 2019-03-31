@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, session, render_template, request
+from flask import Flask, session, redirect, render_template, request
 import jsonpickle
 
 from models import Movie
@@ -8,6 +8,10 @@ from utils import return_error_or_data
 app = Flask(__name__)
 app.config.from_object('config')
 
+# redirect from homepage to '/movies/'
+@app.route('/', methods=['GET'])
+def home():
+    return redirect('/movies/')
 
 # most basic example
 @app.route('/hello', methods=['GET'])

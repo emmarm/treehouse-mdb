@@ -6,18 +6,12 @@ from models import Movie
 
 
 class IndexTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        pass
-
     def setUp(self):
+        # set up test client as app, set testing to True
         self.app = app.test_client()
         self.app.testing = True
 
+    # test routes
     def test_hello(self):
         res = self.app.get('/hello')
 
@@ -50,12 +44,14 @@ class IndexTests(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertIn(b"Page must be less than or equal to 1000", res.data)
 
+        # sets up test client, can access session data
         with app.test_client() as c:
             c.get('/movies/')
             assert 'movies' in flask.session
             assert flask.session['page'] == 1
             assert len(flask.session['movies']) > 0
 
+        # access info about request object
         with app.test_request_context('/movies/?page=5'):
             assert flask.request.path == '/movies/'
             assert flask.request.args['page'] == '5'
@@ -69,6 +65,7 @@ class IndexTests(unittest.TestCase):
         with app.test_request_context('/movie/129'):
             assert flask.request.path == '/movie/129'
 
+    # test model instances created correctly
     def test_movie_model(self):
         movie = Movie({
             'id': 1,
@@ -83,5 +80,6 @@ class IndexTests(unittest.TestCase):
         assert movie.sort_title == 'Best Movie'
 
 
+# initialize unittest
 if __name__ == '__main__':
     unittest.main()
