@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Error{% endblock %}
 {% block content %}
-  <div>
-    <p>{{ error|capitalize }}</p>
-    <a href="/movies/">Return to movie listing</a>
-  </div>
+  <p class="content">{{ error|capitalize }}</p>
+  <a class="page__button" href="/movies/">Return to movie listing</a>
 {% endblock %}

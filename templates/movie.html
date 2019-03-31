@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Movie Details{% endblock %}
 {% block content %}
-  <div>
+  <div class="content">
     <h2>{{ movie.title }}</h2>
     <p>Released on: {{ movie.release_date }}</p>
     {% set popularity_comparison = (movie.popularity - movie.get_popularity_average())|round|int %}
@@ -14,4 +14,5 @@
       {% endif %}
       average)</p>
   </div>
+  <a class="page__button" href="/movies/">Return to list</a>
 {% endblock %}

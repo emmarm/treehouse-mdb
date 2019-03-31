@@ -2,17 +2,19 @@
 <html lang="en">
 <head>
   {% block head %}
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <title>{% block title %}{% endblock %} - TreehouseMDb</title>
   {% endblock %}
 </head>
 <body>
-  <h1>Treehouse Movie Database</h1>
-  <div id="content">{% block content %}{% endblock %}</div>
-  <div id="footer">
-    {% block footer %}
-      &copy; 2019 and created with &#9825; by <a href="http://github.com/mawarijo">Emma Margeson</a>
-    {% endblock %}
+  <div class="main__container">
+    <h1 class="main__title">Treehouse Movie Database</h1>
+    <div class="content__container">{% block content %}{% endblock %}</div>
+    <div class="footer__container">
+      {% block footer %}
+        &copy; 2019 and created with &#9825; by <a class="footer__link" href="http://github.com/mawarijo">Emma Margeson</a>
+      {% endblock %}
+    </div>
   </div>
 </body>
 </html>
